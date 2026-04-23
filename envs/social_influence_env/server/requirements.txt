@@ -1,0 +1,5 @@
+openenv-core[core]>=0.2.3
+pydantic>=2.6
+pyyaml>=6.0
+sympy>=1.12
+uvicorn>=0.27

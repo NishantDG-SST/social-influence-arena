@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "openenv-social_influence_env"
+version = "0.1.0"
+description = "Social Influence Arena — OpenEnv environment for training LLMs to hold calibrated beliefs under adversarial social pressure."
+requires-python = ">=3.10"
+dependencies = [
+    "openenv-core[core]>=0.2.3",
+    "pydantic>=2.6",
+    "pyyaml>=6.0",
+    "sympy>=1.12",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-cov>=4.0.0",
+    "ipykernel>=6.29.5",
+]
+
+[project.scripts]
+server = "social_influence_env.server.app:main"
+arena-infer = "social_influence_env.inference:main"
+
+[tool.setuptools]
+packages = ["social_influence_env", "social_influence_env.server"]
+package-dir = { "social_influence_env" = ".", "social_influence_env.server" = "server" }
+
+[tool.setuptools.package-data]
+social_influence_env = ["**/*.yaml", "**/*.yml", "**/*.md", "**/*.json"]

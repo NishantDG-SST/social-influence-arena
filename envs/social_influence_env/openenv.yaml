@@ -1,0 +1,9 @@
+name: social_influence_env
+version: "0.1.0"
+description: >
+  Social Influence Arena — three production-mapped tasks that train an LLM to
+  hold a calibrated belief state under adversarial social pressure (fake
+  authority, fake consensus, gaslighting) and to update only on genuine
+  evidence. Covers customer support, content moderation, and decision support.
+action: ArenaAction
+observation: ArenaObservation

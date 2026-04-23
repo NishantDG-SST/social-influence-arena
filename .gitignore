@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+checkpoints/
+runs/
+*.egg-info/
+.venv/
+.ipynb_checkpoints/
+assets/plots/*.png
+!assets/plots/.gitkeep
+.claude/
