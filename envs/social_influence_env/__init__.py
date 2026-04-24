@@ -19,6 +19,7 @@ from .models import (
     EpisodeTrace,
     TaskScore,
 )
+from .tasks import TASKS, TASK_BY_NAME, list_tasks
 
 __all__ = [
     "SocialInfluenceEnv",
@@ -29,4 +30,7 @@ __all__ = [
     "DialogTurn",
     "EpisodeTrace",
     "TaskScore",
+    "TASKS",
+    "TASK_BY_NAME",
+    "list_tasks",
 ]

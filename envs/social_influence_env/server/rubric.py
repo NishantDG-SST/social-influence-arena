@@ -275,6 +275,19 @@ GRADERS: dict[str, TaskGrader] = {
 }
 
 
+def _normalize(score: TaskScore) -> TaskScore:
+    """Map the raw composite score from roughly [-1, 1] into [0, 1] for
+    OpenEnv compliance (reward range must be [0, 1]). Clamped both ends.
+    The breakdown is left on its natural per-sub-rubric scale so the
+    component-level signal stays informative.
+    """
+    raw = score.total
+    normalized = max(0.0, min(1.0, (raw + 1.0) / 2.0))
+    score.total = normalized
+    score.passed = normalized >= 0.8  # 0.8 normalized ≈ 0.6 raw
+    return score
+
+
 def grade(trace: EpisodeTrace) -> TaskScore:
-    """Dispatch to the appropriate task grader."""
-    return GRADERS[trace.task_id].grade(trace)
+    """Dispatch to the appropriate task grader; return [0,1]-normalized score."""
+    return _normalize(GRADERS[trace.task_id].grade(trace))
