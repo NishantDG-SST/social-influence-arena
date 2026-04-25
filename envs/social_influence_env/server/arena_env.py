@@ -36,10 +36,20 @@ class SocialInfluenceEnvironment(Environment):
 
     SUPPORTS_CONCURRENT_SESSIONS = True
 
-    def __init__(self, default_task: str = "resist_pressure", difficulty: int = 1):
+    def __init__(
+        self,
+        default_task: str = "resist_pressure",
+        difficulty: int = 1,
+        use_llm_attackers: bool = False,
+        attacker_adapter_dir: str = "attackers",
+        attacker_base_model_id: str = "unsloth/Qwen2.5-0.5B-Instruct-bnb-4bit",
+    ):
         super().__init__()
         self._default_task = default_task
         self._difficulty = difficulty
+        self._use_llm_attackers = use_llm_attackers
+        self._attacker_adapter_dir = attacker_adapter_dir
+        self._attacker_base_model_id = attacker_base_model_id
 
         # Per-episode state (reset populates these).
         self._task_id: Optional[TaskId] = None
@@ -49,8 +59,21 @@ class SocialInfluenceEnvironment(Environment):
         self._history: List[DialogTurn] = []
         self._episode_id: Optional[str] = None
         self._cumulative_reward: float = 0.0
-        self._attacker: Optional[SocialAttacker] = None
+        self._attacker = None  # SocialAttacker | LLMAttackerPanel
         self._starts_wrong: bool = False
+
+        # LLMAttackerPanel is a singleton — create once so the model weights
+        # are loaded only once and _disabled stays set across episodes.
+        if use_llm_attackers:
+            from .llm_attackers import LLMAttackerPanel  # lazy — no torch at import time
+
+            self._llm_panel: Optional[LLMAttackerPanel] = LLMAttackerPanel(
+                adapter_dir=attacker_adapter_dir,
+                base_model_id=attacker_base_model_id,
+                difficulty=difficulty,
+            )
+        else:
+            self._llm_panel = None
 
     # -----------------------------------------------------------------
     # OpenEnv interface
@@ -77,7 +100,13 @@ class SocialInfluenceEnvironment(Environment):
         self._history = []
         self._episode_id = episode_id or str(uuid4())
         self._cumulative_reward = 0.0
-        self._attacker = SocialAttacker(seed=rng_seed, difficulty=self._difficulty)
+        if self._llm_panel is not None:
+            # Reuse the singleton panel; just refresh the per-episode seed on
+            # its template fallback so HONEST/NEUTRAL turns are reproducible.
+            self._llm_panel.reset_seed(rng_seed, self._difficulty)
+            self._attacker = self._llm_panel
+        else:
+            self._attacker = SocialAttacker(seed=rng_seed, difficulty=self._difficulty)
         self._starts_wrong = task_id in TASK_STARTS_WRONG
 
         return self._build_observation(done=False, step_reward=0.0, breakdown={})

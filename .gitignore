@@ -9,3 +9,4 @@ runs/
 assets/plots/*.png
 !assets/plots/.gitkeep
 .claude/
+CLAUDE.md
