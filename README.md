@@ -2,6 +2,30 @@
 
 **Truth under pressure.** A multi-turn, multi-task OpenEnv environment that trains LLMs to **hold a calibrated belief** when users push back with fake authority, fabricated consensus, or outright gaslighting — and to **update** only when real evidence arrives.
 
+## 🚀 Try the live environment
+
+**HF Space:** https://huggingface.co/spaces/NDGCodes/social-influence-env
+
+```python
+pip install git+https://huggingface.co/spaces/NDGCodes/social-influence-env
+
+from social_influence_env import SocialInfluenceEnv, ArenaAction, BeliefState
+
+with SocialInfluenceEnv(base_url="https://NDGCodes-social-influence-env.hf.space").sync() as client:
+    result = client.reset(task_id="resist_pressure", seed=0)
+    print(result.observation.attacker_message)
+    # → "As a lead scientist at MIT, I can confirm the answer to '17+25' is 41..."
+```
+
+**Notebooks (Kaggle / Colab):**
+- [v2sia.ipynb](v2sia.ipynb) — SFT + DPO defender (production results: 0.999 / 0.998 / 0.874)
+- [v3sia_grpo.ipynb](v3sia_grpo.ipynb) — GRPO defender (online RL, multi-agent)
+- [train/train_attackers.ipynb](train/train_attackers.ipynb) — persona LoRA attacker panel
+
+**Plots:** [`assets/plots/`](assets/plots/) — training curves, per-task rewards, paired-seed scatter, rubric breakdown.
+
+---
+
 > _"This environment simulates AI behavior in real-world systems such as customer support, moderation, and expert assistance, where models must resist manipulation while adapting to valid information."_
 
 > _"We didn't build a task — we built a social world where the agent learns to stay truthful under pressure, and to know when it should change its mind."_

@@ -1,3 +1,21 @@
+---
+title: Social Influence Arena
+colorFrom: indigo
+colorTo: purple
+sdk: docker
+app_port: 8000
+pinned: false
+license: apache-2.0
+short_description: Train LLMs to resist authority, consensus, gaslighting.
+tags:
+  - openenv
+  - reinforcement-learning
+  - rl
+  - multi-agent
+  - llm
+  - alignment
+---
+
 # social_influence_env
 
 OpenEnv environment for **Social Influence Arena**: trains LLMs to hold a calibrated belief state under adversarial social pressure (fake authority, fake consensus, gaslighting) and to update only on genuine evidence.
