@@ -6,6 +6,7 @@
 
 **Code:** https://github.com/NishantDG-SST/social-influence-arena
 **HF Space:** https://huggingface.co/spaces/NDGCodes/social-influence-env
+**Demo video:** https://youtu.be/JLpOtZA9nLY
 **Attacker LoRAs on HF Hub:** [authority](https://huggingface.co/NDGCodes/sia-authority-lora) · [consensus](https://huggingface.co/NDGCodes/sia-consensus-lora) · [gaslighter](https://huggingface.co/NDGCodes/sia-gaslighter-lora)
 
 ```python
@@ -440,7 +441,7 @@ At inference time, `LLMAttackerPanel` (in [envs/social_influence_env/server/llm_
   - https://huggingface.co/NDGCodes/sia-consensus-lora
   - https://huggingface.co/NDGCodes/sia-gaslighter-lora
 - **Colab notebooks**: see badges in the [Try the live environment](#try-the-live-environment) section above
-- **Mini-blog / video**: *(coming with submission)*
+- **Demo video (YouTube)**: https://youtu.be/JLpOtZA9nLY
 
 ---
 
