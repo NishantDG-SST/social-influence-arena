@@ -22,6 +22,7 @@ OpenEnv environment for **Social Influence Arena**: trains LLMs to hold a calibr
 
 **Source code & training notebooks:** https://github.com/NishantDG-SST/social-influence-arena
 **Top-level README** (full story, results, Colab badges): see the [GitHub repo](https://github.com/NishantDG-SST/social-influence-arena/blob/SIArenaV2/README.md)
+**Demo video:** https://youtu.be/JLpOtZA9nLY
 **Attacker LoRAs on HF Hub:** [authority](https://huggingface.co/NDGCodes/sia-authority-lora) · [consensus](https://huggingface.co/NDGCodes/sia-consensus-lora) · [gaslighter](https://huggingface.co/NDGCodes/sia-gaslighter-lora)
 
 ## API
