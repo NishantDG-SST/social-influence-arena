@@ -167,16 +167,70 @@ assets/plots/               # Reward curves & component breakdowns
 
 ## Quick start
 
-### 1. Run locally
+### 1. Run locally — four ways
+
+#### a) From the HF Space (recommended for judges)
 
 ```bash
+git clone https://huggingface.co/spaces/NDGCodes/social-influence-env
+cd social-influence-env
+uv sync
+uv run server                                      # serves on :8000
+```
+
+Or run isolated against the published Space without cloning:
+
+```bash
+uv run --isolated --project https://huggingface.co/spaces/NDGCodes/social-influence-env server
+```
+
+#### b) From the GitHub repo (pip-based)
+
+```bash
+git clone https://github.com/NishantDG-SST/social-influence-arena
+cd social-influence-arena
 pip install -e envs/social_influence_env/
 python -m social_influence_env.server.app          # serves on :8000
+```
 
-# In another shell — scripted smoke test, no model required:
+#### c) Direct uvicorn (for fine-grained control)
+
+```bash
+# Single worker, default port 8000
+uvicorn social_influence_env.server.app:app --host 0.0.0.0 --port 8000
+
+# With auto-reload for development
+uvicorn social_influence_env.server.app:app --host 0.0.0.0 --port 8000 --reload
+
+# Multi-worker for concurrency
+uvicorn social_influence_env.server.app:app --host 0.0.0.0 --port 8000 --workers 4
+```
+
+#### d) Docker (isolated, no Python setup)
+
+```bash
+# Pull and run the published HF Space image
+docker run -d -p 8000:8000 registry.hf.space/ndgcodes-social-influence-env:latest
+
+# Or build from source
+cd envs/social_influence_env
+docker build -f server/Dockerfile -t social-influence-env:latest .
+docker run -d -p 8000:8000 social-influence-env:latest
+```
+
+#### Smoke test (any of the above)
+
+```bash
+# Scripted smoke test — no model required, in-process env
 python -m social_influence_env.inference \
     --model-id scripted://always_truthful \
     --episodes 5 --out-dir runs/smoke
+
+# Or hit the running server with curl
+curl http://localhost:8000/health
+curl -X POST http://localhost:8000/reset \
+    -H "Content-Type: application/json" \
+    -d '{"task_id": "resist_pressure", "seed": 0}'
 ```
 
 ### 2. Run a scripted sycophant (baseline) vs a truthful policy
